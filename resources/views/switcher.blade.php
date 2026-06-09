@@ -18,7 +18,7 @@
             @click="open = ! open"
             aria-haspopup="listbox"
             :aria-expanded="open"
-            title="Текущий проект"
+            title="Текущий сайт"
         >
             @if (! empty($currentItem['logo']))
                 <img class="mts__logo" src="{{ $currentItem['logo'] }}" alt="">
@@ -27,7 +27,7 @@
             @endif
 
             <span class="mts__text">
-                <span class="mts__caption">Проект</span>
+                <span class="mts__caption">Сайт</span>
                 <span class="mts__name">{{ $currentItem['label'] ?? 'Выбрать сайт' }}</span>
             </span>
 
@@ -171,12 +171,26 @@
             transform: rotate(180deg);
         }
 
+        /* Свёрнутый сайдбар: только логотип/бейдж, без подписи и шеврона */
+        .layout-menu._is-minimized .mts__text,
+        .layout-menu._is-minimized .mts__chevron {
+            display: none;
+        }
+
+        .layout-menu._is-minimized .mts__trigger {
+            justify-content: center;
+            gap: 0;
+            padding-left: .35rem;
+            padding-right: .35rem;
+        }
+
         .mts__panel {
             position: absolute;
             z-index: 50;
             top: calc(100% + .35rem);
             left: 0;
             right: 0;
+            min-width: 13rem;
             padding: .3rem;
             border: 1px solid var(--color-base-stroke, rgba(127, 127, 127, .3));
             border-radius: var(--radius-lg, .65rem);
