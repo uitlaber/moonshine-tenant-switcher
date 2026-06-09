@@ -69,7 +69,6 @@
         .mts {
             position: relative;
             width: 100%;
-            max-width: 15rem;
             margin-bottom: .5rem;
         }
 
