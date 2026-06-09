@@ -1,5 +1,5 @@
-@if (! empty($options))
-    @php($currentLabel = $options[$current] ?? null)
+@if (! empty($items))
+    @php($currentItem = collect($items)->firstWhere('id', $current) ?? ($items[0] ?? null))
 
     <form
         method="POST"
@@ -20,11 +20,15 @@
             :aria-expanded="open"
             title="Текущий проект"
         >
-            <span class="mts__badge">{{ mb_strtoupper(mb_substr((string) ($currentLabel ?? '·'), 0, 1)) }}</span>
+            @if (! empty($currentItem['logo']))
+                <img class="mts__logo" src="{{ $currentItem['logo'] }}" alt="">
+            @else
+                <span class="mts__badge">{{ mb_strtoupper(mb_substr((string) ($currentItem['label'] ?? '·'), 0, 1)) }}</span>
+            @endif
 
             <span class="mts__text">
                 <span class="mts__caption">Проект</span>
-                <span class="mts__name">{{ $currentLabel ?? 'Выбрать сайт' }}</span>
+                <span class="mts__name">{{ $currentItem['label'] ?? 'Выбрать сайт' }}</span>
             </span>
 
             <svg class="mts__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -39,19 +43,24 @@
             x-transition.origin.top.duration.150ms
             x-cloak
         >
-            @foreach ($options as $id => $label)
-                @php($isCurrent = (string) $id === (string) $current)
+            @foreach ($items as $item)
+                @php($isCurrent = (string) $item['id'] === (string) $current)
                 <button
                     type="submit"
                     name="{{ $field }}"
-                    value="{{ $id }}"
+                    value="{{ $item['id'] }}"
                     role="option"
                     aria-selected="{{ $isCurrent ? 'true' : 'false' }}"
                     class="mts__item {{ $isCurrent ? 'mts__item--active' : '' }}"
                     @disabled($isCurrent)
                 >
-                    <span class="mts__badge mts__badge--sm">{{ mb_strtoupper(mb_substr((string) $label, 0, 1)) }}</span>
-                    <span class="mts__item-name">{{ $label }}</span>
+                    @if (! empty($item['logo']))
+                        <img class="mts__logo mts__logo--sm" src="{{ $item['logo'] }}" alt="">
+                    @else
+                        <span class="mts__badge mts__badge--sm">{{ mb_strtoupper(mb_substr((string) $item['label'], 0, 1)) }}</span>
+                    @endif
+
+                    <span class="mts__item-name">{{ $item['label'] }}</span>
 
                     @if ($isCurrent)
                         <svg class="mts__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -107,11 +116,24 @@
             background: color-mix(in srgb, var(--color-primary, #6366f1) 16%, transparent);
         }
 
-        .mts__badge--sm {
+        .mts__logo {
+            flex: none;
+            width: 1.85rem;
+            height: 1.85rem;
+            border-radius: .5rem;
+            object-fit: contain;
+            background: color-mix(in srgb, var(--color-base-text, #888) 6%, transparent);
+        }
+
+        .mts__badge--sm,
+        .mts__logo--sm {
             width: 1.55rem;
             height: 1.55rem;
-            font-size: .72rem;
             border-radius: .4rem;
+        }
+
+        .mts__badge--sm {
+            font-size: .72rem;
         }
 
         .mts__text {

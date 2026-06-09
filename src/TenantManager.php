@@ -118,6 +118,49 @@ class TenantManager
     }
 
     /**
+     * Список тенантов с лого для переключателя.
+     *
+     * @return array<int, array{id: int|string, label: string, logo: string|null}>
+     */
+    public function items(): array
+    {
+        return $this->tenants()
+            ->map(fn (Model $t) => [
+                'id' => $t->getKey(),
+                'label' => (string) $t->{$this->labelColumn()},
+                'logo' => $this->logoFor($t),
+            ])
+            ->values()
+            ->all();
+    }
+
+    /**
+     * URL мини-логотипа тенанта (или null).
+     */
+    public function logoFor(Model $tenant): ?string
+    {
+        $column = $this->config('logo_column');
+
+        if (! $column) {
+            return null;
+        }
+
+        $value = data_get($tenant, $column);
+
+        if (! is_string($value) || $value === '') {
+            return null;
+        }
+
+        if (str_starts_with($value, 'http://') || str_starts_with($value, 'https://') || str_starts_with($value, '/')) {
+            return $value;
+        }
+
+        $prefix = rtrim((string) $this->config('logo_url_prefix', ''), '/');
+
+        return ($prefix === '' ? '' : $prefix.'/').ltrim($value, '/');
+    }
+
+    /**
      * Текущий id тенанта. Если в сессии пусто — берётся первый доступный
      * (и сохраняется в сессию, т.к. режим «всегда ровно один тенант»).
      */

@@ -21,7 +21,7 @@ class TenantSwitcher extends MoonShineComponent
         $manager = app(TenantManager::class);
 
         return [
-            'options' => $manager->options(),
+            'items' => $manager->items(),
             'current' => $manager->currentId(),
             'action' => route('moonshine.tenant-switch'),
             'field' => 'tenant',
