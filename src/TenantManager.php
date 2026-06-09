@@ -2,6 +2,7 @@
 
 namespace Atlon\MoonShineTenantSwitcher;
 
+use Atlon\MoonShineTenantSwitcher\Contracts\HasTenantAccess;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -86,6 +87,17 @@ class TenantManager
 
         if ($active = $this->config('active_column')) {
             $query->where($active, true);
+        }
+
+        // Ограничение по доступам пользователя (если модель юзера их объявляет).
+        $user = Auth::guard($this->config('guard', 'moonshine'))->user();
+
+        if ($user instanceof HasTenantAccess) {
+            $ids = $user->accessibleTenantIds();
+
+            if ($ids !== null) {
+                $query->whereIn((new $model)->getKeyName(), $ids);
+            }
         }
 
         $query->orderBy($this->config('order_column', 'id'));

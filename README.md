@@ -102,6 +102,34 @@ final class MoonShineLayout extends AppLayout
 }
 ```
 
+### 3. (Опционально) Доступ по сайтам для пользователей
+
+Чтобы ограничить, какие тенанты доступны конкретному пользователю админки,
+реализуйте на модели пользователя контракт `HasTenantAccess`:
+
+```php
+use Atlon\MoonShineTenantSwitcher\Contracts\HasTenantAccess;
+
+class MoonShineUser extends \MoonShine\Laravel\Models\MoonshineUser implements HasTenantAccess
+{
+    public function sites(): BelongsToMany
+    {
+        return $this->belongsToMany(Site::class, 'moonshine_user_site', 'moonshine_user_id', 'site_id');
+    }
+
+    public function accessibleTenantIds(): ?array
+    {
+        return $this->isSuperUser() ? null : $this->sites()->pluck('sites.id')->all();
+    }
+}
+```
+
+`null` — доступ ко всем тенантам (супер-админ). Массив id — только указанные.
+Список в переключателе, валидация переключения и дефолтный тенант
+автоматически учитывают этот доступ.
+
+Модель подключается через `config('moonshine.auth.model')`.
+
 ## Как это работает
 
 - Трейт `BelongsToTenant` вешает глобальный `TenantScope` и хук `creating`.
