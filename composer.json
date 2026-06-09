@@ -1,0 +1,28 @@
+{
+    "name": "atlon/moonshine-tenant-switcher",
+    "description": "Переключатель проекта (tenant) для MoonShine: выпадающий список в шапке админки + автоматический скоуп ресурсов по выбранному тенанту.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["moonshine", "laravel", "multitenancy", "tenant", "admin"],
+    "version": "1.0.0",
+    "require": {
+        "php": "^8.3",
+        "moonshine/moonshine": "^4.11",
+        "illuminate/support": "^11.0 || ^12.0 || ^13.0",
+        "illuminate/database": "^11.0 || ^12.0 || ^13.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Atlon\\MoonShineTenantSwitcher\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Atlon\\MoonShineTenantSwitcher\\TenantSwitcherServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
