@@ -5,17 +5,33 @@
         method="POST"
         action="{{ $action }}"
         class="mts"
-        x-data="{ open: false }"
+        x-data="{
+            open: false,
+            coords: { left: 0, top: 0, width: 0 },
+            toggle() {
+                this.open = ! this.open;
+                if (this.open) {
+                    this.$nextTick(() => this.place());
+                }
+            },
+            place() {
+                const r = this.$refs.trigger.getBoundingClientRect();
+                this.coords = { left: r.left, top: r.bottom + 6, width: r.width };
+            },
+        }"
         @click.outside="open = false"
         @keydown.escape.window="open = false"
+        @resize.window="open = false"
+        @scroll.window="open = false"
     >
         @csrf
 
         <button
             type="button"
+            x-ref="trigger"
             class="mts__trigger"
             :class="{ 'mts__trigger--open': open }"
-            @click="open = ! open"
+            @click="toggle()"
             aria-haspopup="listbox"
             :aria-expanded="open"
             title="Текущий сайт"
@@ -42,6 +58,7 @@
             x-show="open"
             x-transition.origin.top.duration.150ms
             x-cloak
+            :style="`left: ${coords.left}px; top: ${coords.top}px; min-width: max(${coords.width}px, 14rem)`"
         >
             @foreach ($items as $item)
                 @php($isCurrent = (string) $item['id'] === (string) $current)
@@ -185,11 +202,8 @@
         }
 
         .mts__panel {
-            position: absolute;
-            z-index: 50;
-            top: calc(100% + .35rem);
-            left: 0;
-            right: 0;
+            position: fixed;
+            z-index: 1000;
             min-width: 13rem;
             padding: .3rem;
             border: 1px solid var(--color-base-stroke, rgba(127, 127, 127, .3));
