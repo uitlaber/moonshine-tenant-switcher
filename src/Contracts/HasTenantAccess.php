@@ -1,6 +1,6 @@
 <?php
 
-namespace Atlon\MoonShineTenantSwitcher\Contracts;
+namespace Uitlaber\MoonShineTenantSwitcher\Contracts;
 
 /**
  * Реализуется моделью пользователя админки, чтобы ограничить список

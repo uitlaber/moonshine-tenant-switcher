@@ -18,11 +18,11 @@
 "repositories": [
     { "type": "path", "url": "packages/moonshine-tenant-switcher", "options": { "symlink": true } }
 ],
-"require": { "atlon/moonshine-tenant-switcher": "^1.0" }
+"require": { "uitlaber/moonshine-tenant-switcher": "^1.0" }
 ```
 
 ```bash
-composer require atlon/moonshine-tenant-switcher
+composer require uitlaber/moonshine-tenant-switcher
 php artisan vendor:publish --tag=tenant-switcher-config   # опционально
 ```
 
@@ -49,7 +49,7 @@ return [
 Прямой внешний ключ (`site_id`):
 
 ```php
-use Atlon\MoonShineTenantSwitcher\Concerns\BelongsToTenant;
+use Uitlaber\MoonShineTenantSwitcher\Concerns\BelongsToTenant;
 
 class Page extends Model
 {
@@ -60,7 +60,7 @@ class Page extends Model
 Непрямая связь (например, `MenuItem` принадлежит тенанту через `menu`):
 
 ```php
-use Atlon\MoonShineTenantSwitcher\Concerns\BelongsToTenant;
+use Uitlaber\MoonShineTenantSwitcher\Concerns\BelongsToTenant;
 use Illuminate\Database\Eloquent\Builder;
 
 class MenuItem extends Model
@@ -84,7 +84,7 @@ FK можно переопределить на модели свойством 
 ### 2. Добавить переключатель в layout
 
 ```php
-use Atlon\MoonShineTenantSwitcher\Components\TenantSwitcher;
+use Uitlaber\MoonShineTenantSwitcher\Components\TenantSwitcher;
 
 final class MoonShineLayout extends AppLayout
 {
@@ -108,7 +108,7 @@ final class MoonShineLayout extends AppLayout
 реализуйте на модели пользователя контракт `HasTenantAccess`:
 
 ```php
-use Atlon\MoonShineTenantSwitcher\Contracts\HasTenantAccess;
+use Uitlaber\MoonShineTenantSwitcher\Contracts\HasTenantAccess;
 
 class MoonShineUser extends \MoonShine\Laravel\Models\MoonshineUser implements HasTenantAccess
 {
@@ -139,7 +139,7 @@ class MoonShineUser extends \MoonShine\Laravel\Models\MoonshineUser implements H
 
 ## API
 
-`Atlon\MoonShineTenantSwitcher\TenantManager`:
+`Uitlaber\MoonShineTenantSwitcher\TenantManager`:
 
 | Метод | Назначение |
 |---|---|

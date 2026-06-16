@@ -1,9 +1,9 @@
 <?php
 
-namespace Atlon\MoonShineTenantSwitcher\Components;
+namespace Uitlaber\MoonShineTenantSwitcher\Components;
 
-use Atlon\MoonShineTenantSwitcher\TenantManager;
 use MoonShine\UI\Components\MoonShineComponent;
+use Uitlaber\MoonShineTenantSwitcher\TenantManager;
 
 /**
  * Компонент для шапки MoonShine: выпадающий список тенантов с авто-сабмитом.

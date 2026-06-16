@@ -1,11 +1,11 @@
 <?php
 
-namespace Atlon\MoonShineTenantSwitcher\Concerns;
+namespace Uitlaber\MoonShineTenantSwitcher\Concerns;
 
-use Atlon\MoonShineTenantSwitcher\Scopes\TenantScope;
-use Atlon\MoonShineTenantSwitcher\TenantManager;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Uitlaber\MoonShineTenantSwitcher\Scopes\TenantScope;
+use Uitlaber\MoonShineTenantSwitcher\TenantManager;
 
 /**
  * Делает модель «принадлежащей тенанту»:

@@ -1,11 +1,11 @@
 <?php
 
-namespace Atlon\MoonShineTenantSwitcher\Http\Controllers;
+namespace Uitlaber\MoonShineTenantSwitcher\Http\Controllers;
 
-use Atlon\MoonShineTenantSwitcher\TenantManager;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Uitlaber\MoonShineTenantSwitcher\TenantManager;
 
 class SwitchTenantController extends Controller
 {

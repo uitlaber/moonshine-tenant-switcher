@@ -1,10 +1,10 @@
 <?php
 
-namespace Atlon\MoonShineTenantSwitcher;
+namespace Uitlaber\MoonShineTenantSwitcher;
 
-use Atlon\MoonShineTenantSwitcher\Http\Controllers\SwitchTenantController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Uitlaber\MoonShineTenantSwitcher\Http\Controllers\SwitchTenantController;
 
 class TenantSwitcherServiceProvider extends ServiceProvider
 {

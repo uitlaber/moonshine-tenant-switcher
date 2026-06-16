@@ -1,11 +1,11 @@
 <?php
 
-namespace Atlon\MoonShineTenantSwitcher\Scopes;
+namespace Uitlaber\MoonShineTenantSwitcher\Scopes;
 
-use Atlon\MoonShineTenantSwitcher\TenantManager;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
+use Uitlaber\MoonShineTenantSwitcher\TenantManager;
 
 /**
  * Глобальный скоуп: фильтрует модель по текущему тенанту, но только когда

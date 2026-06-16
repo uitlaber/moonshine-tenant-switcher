@@ -1,11 +1,11 @@
 <?php
 
-namespace Atlon\MoonShineTenantSwitcher;
+namespace Uitlaber\MoonShineTenantSwitcher;
 
-use Atlon\MoonShineTenantSwitcher\Contracts\HasTenantAccess;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Uitlaber\MoonShineTenantSwitcher\Contracts\HasTenantAccess;
 
 /**
  * Центральная точка работы с текущим тенантом (проектом).
