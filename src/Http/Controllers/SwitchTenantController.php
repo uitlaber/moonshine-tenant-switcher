@@ -30,7 +30,7 @@ class SwitchTenantController extends Controller
      */
     private function targetUrl(Request $request): string
     {
-        $home = moonshineConfig()->getHomeUrl() ?: route(moonshineConfig()->getHomeRoute());
+        $home = config('moonshine.home_url') ?: route((string) config('moonshine.home_route', 'moonshine.index'));
         $referer = (string) $request->headers->get('referer', '');
 
         if ($referer === '') {
@@ -40,14 +40,28 @@ class SwitchTenantController extends Controller
         $parts = parse_url($referer);
         parse_str($parts['query'] ?? '', $query);
 
-        $itemBound = isset($query['resourceItem']) || isset($query['resourceItems']);
+        // Сегменты пути: /admin/resource/{resourceUri}/{pageUri}/{resourceItem?}
+        $segments = array_values(array_filter(explode('/', $parts['path'] ?? ''), static fn ($s): bool => $s !== ''));
+        $resourcePos = array_search('resource', $segments, true);
+
+        if ($resourcePos === false) {
+            return $referer;
+        }
+
+        $resourceUri = $segments[$resourcePos + 1] ?? null;
+        // Третий сегмент после resource — это id записи (или «create» для новой).
+        $itemSegment = $segments[$resourcePos + 3] ?? null;
+
+        $itemBound = isset($query['resourceItem'])
+            || isset($query['resourceItems'])
+            || ($itemSegment !== null && $itemSegment !== 'create');
 
         if (! $itemBound) {
             return $referer;
         }
 
-        if (preg_match('~/resource/([^/?]+)~', $parts['path'] ?? '', $matches)) {
-            $resource = moonshine()->getResources()->findByUri($matches[1]);
+        if ($resourceUri !== null) {
+            $resource = moonshine()->getResources()->findByUri($resourceUri);
 
             if ($resource !== null && method_exists($resource, 'getIndexPageUrl')) {
                 return $resource->getIndexPageUrl();
